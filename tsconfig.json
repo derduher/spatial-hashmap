@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./dist/cjs",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "module": "commonjs",
+    "target": "ES2018",
+    "esModuleInterop": true,
+    "declaration": true,
+    "lib": ["ES2018"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.*"]
+}

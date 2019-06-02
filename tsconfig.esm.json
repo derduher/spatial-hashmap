@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./dist/esm",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "module": "ESNext",
+    "target": "ES2018",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "declaration": true,
+    "lib": ["esnext"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "src/js/sw.js", "**/*.spec.*"]
+}

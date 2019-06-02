@@ -1,0 +1,86 @@
+{
+  "name": "spatial-hashmap-js",
+  "version": "1.0.0",
+  "description": "Broad phase collision detection using a spatial hashmap",
+  "keywords": [
+    "collision",
+    "collision detection",
+    "game",
+    "physics",
+    "spatial hashmap"
+  ],
+  "repository": "derduher/spatial-hashmap-js",
+  "license": "MIT",
+  "author": "patrick.weygand@gmail.com",
+  "main": "./dist/cjs/spatial-manager.js",
+  "module": "./dist/esm/spatial-manager.js",
+  "browser": "./dist/cjs/spatial-manager.js",
+  "scripts": {
+    "build": "tsc && tsc -p tsconfig.esm.json",
+    "test": "tsc && jest && codecov"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "jasmine": true,
+      "jest": true,
+      "mocha": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "no-case-declarations": 0,
+      "no-console": 0,
+      "no-unused-vars": 0,
+      "react/prop-types": 0,
+      "indent": "off",
+      "@typescript-eslint/indent": [
+        "error",
+        2
+      ],
+      "@typescript-eslint/no-parameter-properties": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "args": "none"
+        }
+      ]
+    }
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!node_modules/",
+      "!src/**/*.spec.*",
+      "!src/types.ts"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "codecov": "^3.5.0",
+    "eslint": "^5.16.0",
+    "jasmine": "^3.4.0",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1"
+  }
+}
