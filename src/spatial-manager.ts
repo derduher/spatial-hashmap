@@ -12,32 +12,59 @@ export interface Geometry {
 }
 
 export default class SpatialManager<T> {
-  private cf: number
-  private cols: number
-  private rows: number
-  public numbuckets: number
+  private cellSizeInv: number
+  private numCols: number
+  private numRows: number
+  public numBuckets: number
   public buckets: Map<number,Set<T>>
   public constructor (
     public SceneWidth: number,
     public SceneHeight: number,
-    public cellsize: number
+    public cellSize: number
   ) {
-    this.cf = 1 / cellsize
+    this.cellSizeInv = 1 / cellSize
 
-    this.cols = Math.ceil(SceneWidth * this.cf)
-    this.rows = Math.ceil(SceneHeight * this.cf)
+    this.numCols = Math.ceil(SceneWidth * this.cellSizeInv)
+    this.numRows = Math.ceil(SceneHeight * this.cellSizeInv)
     this.buckets = new Map()
-    this.numbuckets = this.rows * this.cols
+    this.numBuckets = this.numRows * this.numCols
     this.clearMap()
   }
 
   /**
    * Empties Spatial Hashmap and reinitializes.
    */
+  public static clearMap <U> (buckets: Map<number,Set<U>>, numBuckets: number): void {
+    buckets.clear()
+    for (let i = 0; i < numBuckets; i++) {
+      buckets.set(i, new Set())
+    }
+  }
+
+  /**
+   * Empties Spatial Hashmap and reinitializes.
+   */
   public clearMap (): void {
-    this.buckets.clear()
-    for (let i = 0; i < this.numbuckets; i++) {
-      this.buckets.set(i, new Set())
+    SpatialManager.clearMap(this.buckets, this.numBuckets)
+  }
+
+  /**
+   * How you get your obj into the map
+   * @param obj - what you want to register in the spatial hashmap
+   * @param ids - the buckets within the map the object should be registered to
+   * @param buckets - the Map to add the object to
+   */
+  public static registerObject <U> (
+    obj: U,
+    ids: Set<number>,
+    buckets: Map<number, Set<U>>
+  ): void {
+    for (let id of ids) {
+      const cell = buckets.get(id)
+      /* istanbul ignore else */
+      if (cell) {
+        cell.add(obj)
+      }
     }
   }
 
@@ -47,34 +74,33 @@ export default class SpatialManager<T> {
    * @param geo - a description of the objects position and bounding box
    */
   public registerObject (obj: T, geo: Geometry): void {
-    for (let id of this.getIdsForGeometry(geo)) {
-      let cell = this.buckets.get(id)
-      /* istanbul ignore else */
-      if (cell) {
-        cell.add(obj)
-      }
-    }
+    SpatialManager.registerObject(obj, this.getIdsForGeometry(geo), this.buckets)
   }
 
   /**
    * Returns all the possible buckets an object's geometry is in
-   * @param - geo The geometry
    * @returns - a Set of bucket ids for the passed in geometry
    */
-  public getIdsForGeometry (geo: Geometry): Set<number> {
+  public static getIdsForGeometry (
+    pos: PointLike,
+    min: PointLike,
+    max: PointLike,
+    cellSize: number,
+    numCols: number,
+    numBuckets: number
+  ): Set<number> {
     const bucketsObjIsIn: Set<number> = new Set()
-    const maxX = geo.pos.x + geo.aabb.max.x
-    const maxY = geo.pos.y + geo.aabb.max.y
-    const cf = this.cf
-    const cols = this.cols
+    const maxX = pos.x + max.x
+    const maxY = pos.y + max.y
+    const cf = 1 / cellSize
 
-    const minX = (geo.pos.x / this.cellsize | 0) * this.cellsize
-    const minY = (geo.pos.y / this.cellsize | 0) * this.cellsize
-    for (let i = (maxX / this.cellsize | 0) * this.cellsize; i >= minX; i -= this.cellsize) {
-      for (let j = (maxY / this.cellsize | 0) * this.cellsize; j >= minY; j -= this.cellsize) {
-        const id = SpatialManager.idForPoint({x: i, y: j}, cf, cols)
+    const minX = (pos.x * cf | 0) * cellSize
+    const minY = (pos.y * cf | 0) * cellSize
+    for (let i = (maxX * cf | 0) * cellSize; i >= minX; i -= cellSize) {
+      for (let j = (maxY * cf | 0) * cellSize; j >= minY; j -= cellSize) {
+        const id = SpatialManager.idForPoint({x: i, y: j}, cf, numCols)
         // ignore collisions offscreen
-        if (id >= 0 && id < this.numbuckets) {
+        if (id >= 0 && id < numBuckets) {
           bucketsObjIsIn.add(id)
         }
       }
@@ -84,38 +110,66 @@ export default class SpatialManager<T> {
   }
 
   /**
-   * Given a Point return its bucket ID
-   * @param cf - 1 / cellsize
-   * @param cols the number of cols in the spatial map
+   * Returns all the possible buckets an object's geometry is in
+   * @param - geo The geometry
+   * @returns - a Set of bucket ids for the passed in geometry
    */
-  public static idForPoint (point: PointLike, cf: number, cols: number): number {
-    return (point.x * cf | 0) + (point.y * cf | 0) * cols | 0
+  public getIdsForGeometry (geo: Geometry): Set<number> {
+    return SpatialManager.getIdsForGeometry(geo.pos, geo.aabb.min, geo.aabb.max, this.cellSize, this.numCols, this.numBuckets)
+  }
+
+  /**
+   * Given a Point return its bucket ID
+   * @param cellSizeInv - 1 / cellsize
+   * @param numCols the number of cols in the spatial map
+   */
+  public static idForPoint (point: PointLike, cellSizeInv: number, numCols: number): number {
+    return (point.x * cellSizeInv | 0) + (point.y * cellSizeInv | 0) * numCols | 0
   }
 
   /**
    * Given a Point return its bucket ID
    */
   public idForPoint (point: PointLike): number {
-    return SpatialManager.idForPoint(point, this.cf, this.cols)
+    return SpatialManager.idForPoint(point, this.cellSizeInv, this.numCols)
+  }
+
+
+  /**
+   * Given a geometry return the objects nearby
+   */
+  public static getNearby<U> (
+    ids: Set<number>,
+    buckets: Map<number,Set<U>>
+  ): Set<U> {
+    const nearby: Set<U> = new Set()
+
+    for (let id of ids) {
+      let bucket = buckets.get(id)
+      /* istanbul ignore else */
+      if (bucket) {
+        for (let obj of bucket) {
+          nearby.add(obj)
+        }
+      }
+    }
+    return nearby
   }
 
   /**
    * Given a geometry return the objects nearby
    */
   public getNearby (geo: Geometry): Set<T> {
-    const nearby: Set<T> = new Set()
-    const ids = this.getIdsForGeometry(geo)
-
-    for (let id of ids) {
-      let bucketI = this.buckets.get(id)
-      /* istanbul ignore else */
-      if (bucketI) {
-        const bucket = bucketI.values()
-        for (let b of bucket) {
-          nearby.add(b)
-        }
-      }
-    }
-    return nearby
+    return SpatialManager.getNearby(
+      SpatialManager.getIdsForGeometry(
+        geo.pos,
+        geo.aabb.min,
+        geo.aabb.max,
+        this.cellSize,
+        this.numCols,
+        this.numBuckets
+      ),
+      this.buckets
+    )
   }
 }
