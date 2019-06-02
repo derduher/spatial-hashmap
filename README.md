@@ -10,9 +10,12 @@ Spatial Hashmap is a module for answering the question "What is near an object w
 ## Usage
 
 ```javascript
+// pass in the width, height, and cell size
+// cell size - use this to control how big a region is returned when asking for nearby objects
 const sm = new SpatialManager(100, 100, 10)
 // this can be literally anything
 const yourObject = {your: 'object'}
+// pass in a geometry with this shape
 const geometry = {
   pos: {
     x: 0,
@@ -43,8 +46,11 @@ Empties Spatial Hashmap and reinitializes.
 
 ### registerObject(obj, geo)
 How you get your obj into the map
+
 @param obj - what you want to register in the spatial hashmap
+
 @param geo - a description of the objects position and bounding box
+
 ```
 {
   // position of the object
@@ -71,7 +77,9 @@ Returns all the possible buckets an object's geometry is in as a set
 
 ### SpatialManager.idForPoint(point, cellsizeInv, numCols) (static)
 Given a Point return its bucket ID
+
 @param cellsizeInv - 1 / cellsize
+
 @param numcols - the number of cols in the spatial map
 
 ### spatialManager.idForPoint(point) (instance)
