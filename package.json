@@ -1,5 +1,5 @@
 {
-  "name": "spatial-hashmap-js",
+  "name": "spatial-hashmap",
   "version": "1.0.0",
   "description": "Broad phase collision detection using a spatial hashmap",
   "keywords": [
