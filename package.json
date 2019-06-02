@@ -17,7 +17,7 @@
   "browser": "./dist/cjs/spatial-manager.js",
   "scripts": {
     "build": "tsc && tsc -p tsconfig.esm.json",
-    "test": "tsc && jest && codecov"
+    "test": "tsc && jest && codecov -t ba08905c-2680-4307-a2e8-3ee81ca1f763"
   },
   "eslintConfig": {
     "env": {
