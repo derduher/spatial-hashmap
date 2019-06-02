@@ -1,6 +1,6 @@
 # Spatial Hashmap
-[![codecov](https://codecov.io/gh/derduher/spatial-hashmap-js/branch/master/graph/badge.svg)](https://codecov.io/gh/derduher/spatial-hashmap-js)
-[![CircleCI](https://circleci.com/gh/derduher/spatial-hashmap-js.svg?style=svg)](https://circleci.com/gh/derduher/spatial-hashmap-js)
+[![codecov](https://codecov.io/gh/derduher/spatial-hashmap/branch/master/graph/badge.svg)](https://codecov.io/gh/derduher/spatial-hashmap)
+[![CircleCI](https://circleci.com/gh/derduher/spatial-hashmap.svg?style=svg)](https://circleci.com/gh/derduher/spatial-hashmap)
 Spatial Hashmap is a module for answering the question "What is near an object with these coordinates?". It was created based off the algorithm defined in [this paper](http://www.cs.ucf.edu/~jmesit/publications/scsc%202005.pdf)
 
 ## Install
