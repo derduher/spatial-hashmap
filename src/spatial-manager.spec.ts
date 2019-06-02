@@ -77,14 +77,6 @@ describe('SpatialManager', () => {
     })
   })
 
-  describe('addBucket', () => {
-    it('translates the provided coordinates into an id and adds to the bucket', () => {
-      let bucket: Set<number> = new Set()
-      SpatialManager.addBucket(0, 0, 0.1, 10, bucket, 1000)
-      expect(bucket.has(0)).toBe(true)
-    })
-  })
-
   describe('getNearby', () => {
     it('returns a set of object near the passed in obj', () => {
       spyOn(spatial, 'getIdsForGeometry').and.returnValue([0, 1])

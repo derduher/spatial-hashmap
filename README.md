@@ -11,7 +11,9 @@ Spatial Hashmap is a module for answering the question "What is near an object w
 
 ```javascript
 const sm = new SpatialManager(100, 100, 10)
-sm.registerObject({your: 'object'}, {
+// this can be literally anything
+const yourObject = {your: 'object'}
+const geometry = {
   pos: {
     x: 0,
     y: 0
@@ -26,8 +28,54 @@ sm.registerObject({your: 'object'}, {
       y: 10
     }
   }
-})
+}
+sm.registerObject(yourObject, geometry)
 sm.registerObject({your: 'otherObject'}, ...)
-sm.getNearby(geometryOfOtherObject)
+
 // returns Set of nearby objects
+sm.getNearby(geometryOfOtherObject)
+sm.clearMap()
 ```
+## API
+
+### clearMap()
+Empties Spatial Hashmap and reinitializes.
+
+### registerObject(obj, geo)
+How you get your obj into the map
+@param obj - what you want to register in the spatial hashmap
+@param geo - a description of the objects position and bounding box
+```
+{
+  // position of the object
+  pos: {
+    x: 0,
+    y: 0
+  },
+  // bounding box relative to position
+  aabb: {
+    min: {
+      x: 0,
+      y: 0
+    }
+    max: {
+      x: 12,
+      y: 10
+    }
+  }
+}
+```
+
+### getIdsForGeometry(geo)
+Returns all the possible buckets an object's geometry is in as a set
+
+### SpatialManager.idForPoint(point, cellsizeInv, numCols) (static)
+Given a Point return its bucket ID
+@param cellsizeInv - 1 / cellsize
+@param numcols - the number of cols in the spatial map
+
+### spatialManager.idForPoint(point) (instance)
+Given a Point return its bucket ID
+
+### getNearby(geo)
+Given a geometry return the objects nearby

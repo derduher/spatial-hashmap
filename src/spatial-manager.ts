@@ -1,4 +1,3 @@
-/* jshint bitwise: false */
 export interface PointLike {
   x: number;
   y: number;
@@ -11,6 +10,7 @@ export interface Geometry {
   pos: PointLike;
   aabb: BoundingBox;
 }
+
 export default class SpatialManager<T> {
   private cf: number
   private cols: number
@@ -32,7 +32,7 @@ export default class SpatialManager<T> {
   }
 
   /**
-   * empties Spatial Hashmap and reinitializes.
+   * Empties Spatial Hashmap and reinitializes.
    */
   public clearMap (): void {
     this.buckets.clear()
@@ -42,6 +42,7 @@ export default class SpatialManager<T> {
   }
 
   /**
+   * How you get your obj into the map
    * @param obj - what you want to register in the spatial hashmap
    * @param geo - a description of the objects position and bounding box
    */
@@ -71,7 +72,11 @@ export default class SpatialManager<T> {
     const minY = (geo.pos.y / this.cellsize | 0) * this.cellsize
     for (let i = (maxX / this.cellsize | 0) * this.cellsize; i >= minX; i -= this.cellsize) {
       for (let j = (maxY / this.cellsize | 0) * this.cellsize; j >= minY; j -= this.cellsize) {
-        SpatialManager.addBucket(i, j, cf, cols, bucketsObjIsIn, this.numbuckets)
+        const id = SpatialManager.idForPoint({x: i, y: j}, cf, cols)
+        // ignore collisions offscreen
+        if (id >= 0 && id < this.numbuckets) {
+          bucketsObjIsIn.add(id)
+        }
       }
     }
 
@@ -79,7 +84,7 @@ export default class SpatialManager<T> {
   }
 
   /**
-   * given a Point return its bucket ID
+   * Given a Point return its bucket ID
    * @param cf - 1 / cellsize
    * @param cols the number of cols in the spatial map
    */
@@ -88,22 +93,10 @@ export default class SpatialManager<T> {
   }
 
   /**
-   * given a Point return its bucket ID
+   * Given a Point return its bucket ID
    */
   public idForPoint (point: PointLike): number {
     return SpatialManager.idForPoint(point, this.cf, this.cols)
-  }
-
-  /**
-   * @param cf - 1 / cellsize
-   * @param set - set you'd like to add bucket to 
-   */
-  public static addBucket (x: number, y: number, cf: number, cols: number, set: Set<number>, numbuckets: number): void {
-    // ignore collisions offscreen
-    const id = SpatialManager.idForPoint({x, y}, cf, cols)
-    if (id >= 0 && id < numbuckets) {
-      set.add(id)
-    }
   }
 
   /**
