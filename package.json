@@ -86,9 +86,11 @@
       "^.+\\.tsx?$": "ts-jest"
     }
   },
-  "hooks": {
-    "pre-commit": "npm run pretty",
-    "pre-push": "npm test"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretty",
+      "pre-push": "npm test"
+    }
   },
   "dependencies": {},
   "devDependencies": {
