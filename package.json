@@ -16,9 +16,10 @@
   "module": "./dist/esm/spatial-manager.js",
   "browser": "./dist/cjs/spatial-manager.js",
   "scripts": {
-    "pretty": "eslint --fix && pretty-quick --staged",
+    "pretty": "eslint --fix 'src/**/*' && pretty-quick --staged",
     "build": "tsc && tsc -p tsconfig.esm.json",
-    "test": "tsc && jest && codecov -t ba08905c-2680-4307-a2e8-3ee81ca1f763"
+    "test": "tsc && jest",
+    "coverage": "codecov -t ba08905c-2680-4307-a2e8-3ee81ca1f763"
   },
   "eslintConfig": {
     "env": {
@@ -60,7 +61,18 @@
       ],
       "@typescript-eslint/member-delimiter-style": "none",
       "@typescript-eslint/explicit-member-accessibility": "no-public"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "*-test.ts",
+          "*.spec.ts"
+        ],
+        "rules": {
+          "@typescript-eslint/explicit-function-return-type": "off"
+        }
+      }
+    ]
   },
   "jest": {
     "collectCoverage": true,
@@ -74,9 +86,13 @@
       "^.+\\.tsx?$": "ts-jest"
     }
   },
-  "hooks": {
-    "pre-commit": "npm run pretty",
-    "pre-push": "npm test"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretty",
+      "pre-push": "npm test",
+      "post-checkout": "npm i",
+      "post-merge": "npm i"
+    }
   },
   "dependencies": {},
   "devDependencies": {
