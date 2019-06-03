@@ -143,7 +143,7 @@ export default class SpatialManager<T> {
     numCols: number
   ): number {
     return (
-      4 * (((point.x * cellSizeInv) | 0) +
+      (((point.x * cellSizeInv) | 0) +
         ((point.y * cellSizeInv) | 0) * numCols) |
       0
     )
