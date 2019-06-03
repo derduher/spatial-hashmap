@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/derduher/spatial-hashmap/branch/master/graph/badge.svg)](https://codecov.io/gh/derduher/spatial-hashmap)
 [![CircleCI](https://circleci.com/gh/derduher/spatial-hashmap.svg?style=svg)](https://circleci.com/gh/derduher/spatial-hashmap)
 
-Spatial Hashmap is a module for answering the question "What is near an object with these coordinates?". It was created based off the algorithm defined in [this paper](http://www.cs.ucf.edu/~jmesit/publications/scsc%202005.pdf)
+Spatial Hashmap is a module for answering the question "What is near an object with these coordinates?". It was created based off the algorithm defined in ["Optimization of Large-Scale, Real-Time Simulations by Spatial Hashing"](http://www.cs.ucf.edu/~jmesit/publications/scsc%202005.pdf)
 
 ## Install
 
