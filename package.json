@@ -89,7 +89,9 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run pretty",
-      "pre-push": "npm test"
+      "pre-push": "npm test",
+      "post-checkout": "npm i",
+      "post-merge": "npm i"
     }
   },
   "dependencies": {},
