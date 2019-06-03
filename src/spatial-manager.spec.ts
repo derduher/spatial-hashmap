@@ -1,16 +1,16 @@
-import SpatialManager, {Geometry} from './spatial-manager'
+import SpatialManager, { Geometry } from './spatial-manager'
 
 class Point2 {
-  constructor (public x = 0, public y = 0) {}
+  constructor(public x = 0, public y = 0) {}
 }
 
-const obj: {foo: string} = {foo: 'bar'}
+const obj: { foo: string } = { foo: 'bar' }
 
-function generateObj (): typeof obj {
-  return {foo: 'baz'}
+function generateObj(): typeof obj {
+  return { foo: 'baz' }
 }
 
-function generateGeometry (): Geometry {
+function generateGeometry(): Geometry {
   return {
     pos: new Point2(),
     aabb: {
@@ -38,7 +38,7 @@ describe('SpatialManager', () => {
       expect(spatial.buckets.get(0).has(foo)).toBeFalsy()
     })
   })
-  
+
   describe('registerObject', () => {
     it('adds the passed in obj to its matching buckets', () => {
       spyOn(spatial, 'getIdsForGeometry').and.returnValue([0, 1])
@@ -54,7 +54,7 @@ describe('SpatialManager', () => {
   describe('getIdForObject', () => {
     it('returns an array of ids', () => {
       const geo = {
-        pos: new Point2,
+        pos: new Point2(),
         aabb: {
           min: new Point2(),
           max: new Point2(11, 11)
@@ -70,7 +70,7 @@ describe('SpatialManager', () => {
 
   describe('idForPoint', () => {
     it('translates the given coordinates into an id', () => {
-    // return (x * this.cf | 0) + (y * this.cf | 0) * this.cols | 0
+      // return (x * this.cf | 0) + (y * this.cf | 0) * this.cols | 0
       expect(spatial.idForPoint(new Point2(100, 50))).toBe(510)
       expect(spatial.idForPoint(new Point2(0, 0))).toBe(0)
       expect(spatial.idForPoint(new Point2(11, 0))).toBe(1)
