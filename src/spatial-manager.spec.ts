@@ -31,11 +31,15 @@ describe('SpatialManager', () => {
       spyOn(spatial, 'getIdsForGeometry').and.returnValue([0, 1])
       const foo = generateObj()
       spatial.registerObject(foo, generateGeometry())
-      // @ts-ignore next
-      expect(spatial.buckets.get(0).has(foo)).toBeTruthy()
+      let zero = spatial.buckets.get(0)
+      if (zero) {
+        expect(zero.has(foo)).toBeTruthy()
+      }
       spatial.clearMap()
-      // @ts-ignore next
-      expect(spatial.buckets.get(0).has(foo)).toBeFalsy()
+      zero = spatial.buckets.get(0)
+      if (zero) {
+        expect(zero.has(foo)).toBeFalsy()
+      }
     })
   })
 
@@ -44,10 +48,12 @@ describe('SpatialManager', () => {
       spyOn(spatial, 'getIdsForGeometry').and.returnValue([0, 1])
       const foo = generateObj()
       spatial.registerObject(foo, generateGeometry())
-      // @ts-ignore next
-      expect(spatial.buckets.get(0).has(foo)).toBeTruthy()
-      // @ts-ignore next
-      expect(spatial.buckets.get(1).has(foo)).toBeTruthy()
+      const zero = spatial.buckets.get(0)
+      const one = spatial.buckets.get(1)
+      if (zero && one) {
+        expect(zero.has(foo)).toBeTruthy()
+        expect(one.has(foo)).toBeTruthy()
+      }
     })
   })
 
