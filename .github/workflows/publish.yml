@@ -2,24 +2,24 @@ name: Node CI
 
 on:
   push:
-    tags: 
+    tags:
       - v*
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12
-    - name: npm ci
-      run: npm ci
-    - name: npm test
-      run: npm test
-    - name: coverage
-      run: npm run coverage
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: npm ci
+        run: npm ci
+      - name: npm test
+        run: npm test
+      - name: coverage
+        run: npm run coverage
 
   publish-npm:
     needs: build
@@ -31,6 +31,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      - run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
