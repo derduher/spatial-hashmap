@@ -32,7 +32,9 @@
     },
     "extends": [
       "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/@typescript-eslint"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -43,15 +45,21 @@
       }
     },
     "rules": {
+      "@typescript-eslint/indent": "off",
+      "no-multi-spaces": "off",
+      "padded-blocks": "off",
+      "react/jsx-closing-tag-location": "off",
+      "react/jsx-first-prop-new-line": "off",
+      "react/jsx-indent": "off",
+      "react/jsx-max-props-per-line": "off",
+      "react/jsx-wrap-multilines": "off",
+      "switch-colon-spacing": "off",
+      "max-len": "off",
       "no-case-declarations": 0,
       "no-console": 0,
       "no-unused-vars": 0,
       "react/prop-types": 0,
       "indent": "off",
-      "@typescript-eslint/indent": [
-        "error",
-        2
-      ],
       "@typescript-eslint/no-parameter-properties": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
@@ -93,27 +101,34 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pretty",
-      "pre-push": "npm test",
+      "pre-commit": "tsc && lint-staged && npm run test",
       "post-checkout": "npm i",
       "post-merge": "npm i"
     }
   },
-  "dependencies": {},
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "lint-staged": "^10.2.11"
+  },
   "devDependencies": {
-    "@types/jest": "^26.0.4",
-    "@typescript-eslint/eslint-plugin": "^2.9.0",
-    "@typescript-eslint/parser": "^2.9.0",
-    "codecov": "^3.5.0",
-    "eslint": "^6.7.0",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-prettier": "^3.1.1",
+    "@types/jest": "^26.0.7",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "codecov": "^3.7.2",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.0.10",
-    "jasmine": "^3.4.0",
-    "jest": "^25.1.0",
-    "prettier": "^2.0.2",
+    "jasmine": "^3.6.1",
+    "jest": "^26.1.0",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "ts-jest": "^25.2.0",
-    "typescript": "^3.7.2"
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.7"
   }
 }

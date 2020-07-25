@@ -1,4 +1,5 @@
 # Spatial Hashmap
+
 [![codecov](https://codecov.io/gh/derduher/spatial-hashmap/branch/master/graph/badge.svg)](https://codecov.io/gh/derduher/spatial-hashmap)
 [![CircleCI](https://circleci.com/gh/derduher/spatial-hashmap.svg?style=svg)](https://circleci.com/gh/derduher/spatial-hashmap)
 
@@ -40,12 +41,15 @@ sm.registerObject({your: 'otherObject'}, ...)
 sm.getNearby(geometryOfOtherObject)
 sm.clearMap()
 ```
+
 ## API
 
 ### clearMap()
+
 Empties Spatial Hashmap and reinitializes.
 
 ### registerObject(obj, geo)
+
 How you get your obj into the map
 
 @param obj - what you want to register in the spatial hashmap
@@ -74,9 +78,11 @@ How you get your obj into the map
 ```
 
 ### getIdsForGeometry(geo)
+
 Returns all the possible buckets an object's geometry is in as a set
 
 ### SpatialManager.idForPoint(point, cellsizeInv, numCols) (static)
+
 Given a Point return its bucket ID
 
 @param cellsizeInv - 1 / cellsize
@@ -84,7 +90,9 @@ Given a Point return its bucket ID
 @param numcols - the number of cols in the spatial map
 
 ### spatialManager.idForPoint(point) (instance)
+
 Given a Point return its bucket ID
 
 ### getNearby(geo)
+
 Given a geometry return the objects nearby
