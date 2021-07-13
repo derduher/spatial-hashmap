@@ -113,7 +113,7 @@
     ]
   },
   "dependencies": {
-    "lint-staged": "^10.5.4"
+    "lint-staged": "^11.0.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
