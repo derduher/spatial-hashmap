@@ -18,8 +18,7 @@
   "scripts": {
     "pretty": "eslint --fix 'src/**/*' && pretty-quick --staged",
     "build": "tsc && tsc -p tsconfig.esm.json",
-    "test": "tsc && jest",
-    "coverage": "codecov -t ba08905c-2680-4307-a2e8-3ee81ca1f763"
+    "test": "tsc && jest"
   },
   "eslintConfig": {
     "env": {
@@ -116,19 +115,18 @@
     "lint-staged": "^10.5.4"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@types/jest": "^26.0.24",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^3.10.1",
-    "codecov": "^3.8.2",
-    "eslint": "^7.27.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-prettier": "^3.4.1",
     "husky": "^4.3.8",
-    "jasmine": "^3.7.0",
+    "jasmine": "^3.99.0",
     "jest": "^26.6.3",
-    "prettier": "^2.3.0",
-    "pretty-quick": "^3.1.0",
+    "prettier": "^2.7.1",
+    "pretty-quick": "^3.1.3",
     "ts-jest": "^26.5.6",
-    "typescript": "^4.2.4"
+    "typescript": "^4.7.4"
   }
 }
