@@ -28,7 +28,7 @@ describe('SpatialManager', () => {
 
   describe('clearBuckets', () => {
     it('empties all buckets', () => {
-      spyOn(spatial, 'getIdsForGeometry').and.returnValue([0, 1])
+      jest.spyOn(spatial, 'getIdsForGeometry').mockReturnValue(new Set([0, 1]))
       const foo = generateObj()
       spatial.registerObject(foo, generateGeometry())
       let zero = spatial.buckets.get(0)
@@ -45,7 +45,7 @@ describe('SpatialManager', () => {
 
   describe('registerObject', () => {
     it('adds the passed in obj to its matching buckets', () => {
-      spyOn(spatial, 'getIdsForGeometry').and.returnValue([0, 1])
+      jest.spyOn(spatial, 'getIdsForGeometry').mockReturnValue(new Set([0, 1]))
       const foo = generateObj()
       spatial.registerObject(foo, generateGeometry())
       const zero = spatial.buckets.get(0)
@@ -85,7 +85,7 @@ describe('SpatialManager', () => {
 
   describe('getNearby', () => {
     it('returns a set of object near the passed in obj', () => {
-      spyOn(spatial, 'getIdsForGeometry').and.returnValue([0, 1])
+      jest.spyOn(spatial, 'getIdsForGeometry').mockReturnValue(new Set([0, 1]))
       const foo = generateObj()
       const bar = generateObj()
       const baz = generateObj()

@@ -24,7 +24,6 @@
     "env": {
       "browser": true,
       "es6": true,
-      "jasmine": true,
       "jest": true,
       "mocha": true,
       "node": true
@@ -111,9 +110,7 @@
       "prettier --write"
     ]
   },
-  "dependencies": {
-    "lint-staged": "^10.5.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -122,11 +119,11 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.4.1",
     "husky": "^4.3.8",
-    "jasmine": "^3.99.0",
-    "jest": "^26.6.3",
+    "jest": "^28.1.3",
     "prettier": "^2.7.1",
     "pretty-quick": "^3.1.3",
-    "ts-jest": "^26.5.6",
+    "ts-jest": "^28.0.7",
+    "lint-staged": "^13.0.3",
     "typescript": "^4.7.4"
   }
 }
